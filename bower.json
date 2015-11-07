@@ -1,0 +1,28 @@
+{
+  "name": "scaffold",
+  "description": "",
+  "main": "server.js",
+  "authors": [
+    "Khodeir"
+  ],
+  "license": "ISC",
+  "moduleType": [
+    "amd"
+  ],
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "src/components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "~2.1.4",
+    "backbone": "~1.2.3",
+    "requirejs": "~2.1.20",
+    "bootstrap": "~3.3.5",
+    "underscore": "~1.8.3"
+  }
+}
