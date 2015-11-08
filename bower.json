@@ -1,9 +1,10 @@
 {
-  "name": "scaffold",
+  "name": "realmap",
   "description": "",
   "main": "server.js",
   "authors": [
-    "Khodeir"
+    "Mohamed Khodeir",
+    "Omar Makhlouf"
   ],
   "license": "ISC",
   "moduleType": [
@@ -23,6 +24,10 @@
     "backbone": "~1.2.3",
     "requirejs": "~2.1.20",
     "bootstrap": "~3.3.5",
-    "underscore": "~1.8.3"
+    "underscore": "~1.8.3",
+    "mapbox.js": "~2.2.3",
+    "backbone.localStorage": "~1.1.16",
+    "backbone-modal": "~1.1.5",
+    "bootstrap": "3.3.4"
   }
 }

@@ -3,13 +3,16 @@
 // Module dependencies
 var express = require('express'),
     http = require('http'),
-    path = require('path');
+    path = require('path'),
+    fs = require('fs');
 
 // Create server
 var app = express();
 
-app.get('/', function(req, res) {
-  res.send('hello!');
+app.get('/api/places', function(req, res) {
+	fs.readFile('places.json', 'utf8', function (err, data) {
+	  res.send(data);
+	});
 });
 
 // Export module

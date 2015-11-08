@@ -5,14 +5,70 @@
         <meta name="description" content="">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <!-- bower:css -->
+        <link rel="stylesheet" href="components/mapbox.js/mapbox.css" />
         <link rel="stylesheet" href="components/bootstrap/dist/css/bootstrap.css" />
         <link rel="stylesheet" href="components/backbone-modal/backbone.modal.css" />
         <link rel="stylesheet" href="components/backbone-modal/backbone.modal.theme.css" />
+        <link rel="stylesheet" href="style/main.css" />
         <!-- endbower -->
 	</head>
 	<body>
-		<h1>It works, doesn't it?!</h1>
-        <h2>That it does. That.. it does.</h2>
+		<script id="panel_template" type="text/template">
+            <div class="panel">
+                <h1><%= title %></h1>
+                <button class="addToCompare">Add to Compare</button>
+                <p><%= description %></p>
+            </div>
+        </script>
+        <script id="compare_icon_template" type="text/template">
+            <span class="close glyphicon glyphicon-remove"></span><div class="icon"><%= title %></div>
+        </script>
+        <script type="text/template" id="modal-template">
+            <div class="bbm-modal__topbar">
+                <div class="row">
+                <div class="col-md-6">
+              <h3 class="bbm-modal__title"><%= object1.title %></h3>
+              </div>
+              <div class="col-md-6">
+              <h3 class="bbm-modal__title"><%= object2.title %></h3>
+              </div>
+              </div>
+            </div>
+            <div class="bbm-modal__section">
+              <p>With Backbone.Modal you can create a modal in a few lines of code.</p>
+              <p>Some features are:</p>
+              <ul>
+                <li>Really flexible and easy to set up.</li>
+                <li>Default behaviors like ESC or clicking outside a modal.</li>
+                <li>Some awesome animations that make them feel robust.</li>
+                <li>Responsive and usable on mobile devices.</li>
+              </ul>
+            </div>
+            <div class="bbm-modal__bottombar">
+              <a href="#" class="bbm-button">close</a>
+            </div>
+          </script>
+          <script type="text/template" id="signup-modal">
+            <div class="bbm-modal__topbar">
+
+              <div>
+              <h3 class="bbm-modal__title">Sign up!</h3>
+              </div>
+
+            </div>
+            <div class="bbm-modal__section">
+              <p><%= message %></p>
+            </div>
+            <div class="bbm-modal__bottombar">
+              <a href="#" class="bbm-button">Sign up</a>
+              <a href="#" class="bbm-button">close</a>
+            </div>
+          </script>
+        <div class="row" id="container">
+            <div id="map"></div>
+            <div class="col-md-3" id="compare"></div>
+            <div class="col-md-offset-1 col-md-4" id="panel"></div>
+        </div>
 	
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
