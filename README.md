@@ -9,13 +9,13 @@ This project uses bower as a package/requirements manager, and grunt for dev tas
 
 So once you have npm installed, install these dev dependencies (see package.json for the full list):
 
->> cd realmap
->> npm install
+    $ cd realmap
+    $ npm install
 
 Then, finally install the project dependencies:
 
->> bower install
+    $ bower install
 
 Then you should be good, so start the dev server.
 
->> grunt serve
+    $ grunt serve
