@@ -31,7 +31,6 @@ define([
             this.polygon = null;
             this.children = [];
             this.setupListeners();
-            this.model.on('change:selected', this.render, this);
         },
         setupOverlays: function(){
             var placeList = this.model;
@@ -50,11 +49,11 @@ define([
 
                 // set click navigation
                 childLayer.on('click', function(){
-                    placeList.setSelected(child.get('id'));
-                });
+                    this.trigger('goTo', child.get('id'));
+                }, this);
 
                 return childLayer;
-            });
+            }, this);
 
 
         },
@@ -137,8 +136,9 @@ define([
         },
         handleZoomOut: function(){
             var root = this.model.getSelected();
-            if ((root.get('parent') !== null) && (this.lastZoom === root.get('minZoom'))){
-                this.model.setSelected(root.get('parent'));
+            var parentId = root.get('parent');
+            if ((parentId !== null) && (this.lastZoom === root.get('minZoom'))){
+                this.trigger('goTo', parentId);
             }
         },
         handleZoomIn: function(){

@@ -21,7 +21,7 @@ define([
 		},
 		setSelected: function(id){
 			this.selected = id;
-			this.trigger('change:selected');
+			this.trigger('change:selected', id);
 		}
 	});
 

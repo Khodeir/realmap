@@ -4,9 +4,8 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'views/comparison_panel',
-    'views/sign_up'
-], function ($, _, Backbone, ComparisonPanelView, SignUpPanelView) {
+    'views/comparison_panel'
+], function ($, _, Backbone, ComparisonPanelView) {
     'use strict';
 
     var CompareIconView = Backbone.View.extend({
@@ -17,10 +16,10 @@ define([
             return this;
         },
         removeThis: function(){
-            this.model.destroy();
+            this.trigger('icon:remove', this.model);
         },
         goToThis: function(){
-            this.trigger('goToThis', this.model.get('id'));
+            this.trigger('icon:goTo', this.model);
         }
 
     });
@@ -28,14 +27,13 @@ define([
         className: 'compareSection',
         events: {'click button.compare' : 'doCompare'},
         initialize: function(){
-            this.model.on('add', this.render, this);
-            this.model.on('remove', this.render, this);
-            this.model.on('reset', this.render, this);
             this.model.fetch();
         },
         addIcons: function(){
             this.model.each(function(place){
                 var view = new CompareIconView({model:place});
+                this.listenTo(view, 'icon:remove', this.remove);
+                this.listenTo(view, 'icon:goTo', this.goTo);
                 this.$el.append(view.render().el);
             }, this);
         },
@@ -54,36 +52,45 @@ define([
         doCompare: function(){
             var view = new ComparisonPanelView( this.model.slice(0,2));
             $('body').append(view.render().el);
+        },
+        remove: function(place){
+            this.trigger('section:remove', place);
+        },
+        goTo: function(place){
+            this.trigger('section:goTo', place);
         }
     });
     var CompareView = Backbone.View.extend({
         el: '#compare',
-        initialize: function(){
+        // events: {'icon:goTo': 'alert()'},
+        initialize: function(options){
+            this.compareModel = options.compareModel;
+            this.firstrender();
             this.render();
-        },     
-        render: function(){
-            this.$el.html('');
-            _.each(this.model,function(collection){
-                var e = $(document.createElement('div'));
-                this.$el.append(e);
-                new CompareSectionView({model:collection,el:e});
-            }, this);
         },
-        addPlace: function(h){
-            var type = h.get('type');
-            var list = this.model[type];
-            if(list){
-                if(list.length<list.maxLength){
-                    list.create(h.toJSON()); 
-                }
-                else{
-                    var context = {message: 'Sign up to be able to add more than two places!'};
-                    var view = new SignUpPanelView({model:context});
-                    $('body').append(view.render().el);
-                }
-            
-            }
-        }
+        firstrender: function(){
+            this.$el.html('');
+            this.children = [];
+            _.each(this.compareModel.get('byType'),
+                function(collection){
+                    var e = $(document.createElement('div'));
+                    this.$el.append(e);
+                    var view = new CompareSectionView({model:collection,el:e});
+                    this.listenTo(view, 'section:goTo', this.goTo);
+                    this.listenTo(view, 'section:remove', this.remove);
+                    this.children.push(view);
+                }, this);
+        },
+        render: function(){
+            _.each(this.children, function(c){c.render();});
+        },
+        goTo: function(place){
+            this.trigger('goTo', place.get('id'));
+        },
+        remove: function(place){
+            this.trigger('remove', place);
+        },
+
     });
     return CompareView;
 });

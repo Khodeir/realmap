@@ -12,7 +12,10 @@ define([
             '*place' : 'setPlace'
         },
         setPlace: function(params) {
-            this.placeList.setSelected(params);
+            if(params){
+                return this.placeList.setSelected(params);
+            }
+            this.navigate('root', {trigger:true});
         }
     });
     return MapRouter;
